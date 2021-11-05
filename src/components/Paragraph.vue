@@ -2,6 +2,9 @@
 import { onMounted, getCurrentInstance } from '@vue/runtime-core'
 import Velocity from 'velocity-animate'
 import { reactive } from 'vue'
+import piaonOgg from '../assets/media/korg-m3r-grand-piano-c5.ogg'
+
+let audioIns = null
 
 const props = defineProps({
   list: {
@@ -43,6 +46,7 @@ function wordMouseEnterSpring(e) {
   var iStartY = e.clientY
   var index = target.getAttribute('data-i')
   mouseEnterIndex = index
+  playPiano()
   $parent.onmousemove = function (pe) {
     var spans = $parent.children
     var spanArr = Array.prototype.slice.call(spans)
@@ -93,12 +97,24 @@ function wordMouseEnterSpring(e) {
 function wordMouseEnterCurrentIndex(e) {
   mouseEnterIndex = e.target.getAttribute('data-i')
 }
+
+function handleClick() {
+  playPiano()
+}
+
+
+function playPiano() {
+  let audio = new Audio(piaonOgg)
+  audio.play()
+}
+
+
 </script>
 
 <template>
   <div :class="['list', reactiveData.initedAnimation ? 'animate' : '']" ref="ref_list">
     <li v-for="(item, index) in list" :key="index" :ref="'ref_list' + index">
-      <a href="javascript:;">
+      <a href="javascript:;" @click="handleClick">
         <span v-for="(word, i) in item.title" :key="'w_' + i" :data-i="i">{{word}}</span>
       </a>
     </li>
