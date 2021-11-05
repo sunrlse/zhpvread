@@ -17,6 +17,7 @@ const reactiveData = reactive({
 })
 onMounted(() => {
   initAnimation()
+  initPiano()
 })
 var iStartTop = 0
 var iMinTop = -18
@@ -102,10 +103,17 @@ function handleClick() {
   playPiano()
 }
 
+function initPiano() {
+  audioIns = new Audio(piaonOgg)
+}
 
 function playPiano() {
-  let audio = new Audio(piaonOgg)
-  audio.play()
+  if (!audioIns) {
+    initPiano()
+    return
+  }
+  audioIns.currentTime = 0
+  audioIns.play()
 }
 
 
